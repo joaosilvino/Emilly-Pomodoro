@@ -7,6 +7,7 @@ let shortBreak = document.getElementById("short-break")
 let longBreak = document.getElementById("long-break")
 let startBtn = document.getElementById("start")
 let stopBtn = document.getElementById("stop")
+let resetBtn = document.getElementById("reset")
 let button = document.querySelector(".button")
 
 let currentTimer = pomodoro
@@ -104,4 +105,12 @@ stopBtn.addEventListener("click", () => {
     if(currentTimer) {
         clearInterval(myInterval)
     }
+})
+
+resetBtn.addEventListener("click", () => {
+    clearInterval(myInterval);
+    let originalDuration = currentTimer.getAttribute("data-duration");
+    currentTimer.textContent = originalDuration;
+    alarm.pause();
+    alarm.currentTime = 0;
 })
