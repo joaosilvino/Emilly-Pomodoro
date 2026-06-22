@@ -12,7 +12,8 @@ let button = document.querySelector(".button")
 let currentTimer = pomodoro
 let myInterval = null
 
-// show the default timer
+const alarm = new Audio('jeremayjimenez-thailand-eas-alarm-2006-266492.mp3');
+
 function showDefaultTimer() {
     pomodoro.style.display = "block"
     short.style.display = "none"
@@ -68,20 +69,24 @@ function startTimer(timerDisplay) {
         clearInterval(myInterval);
     }
 
-    timerDuration = timerDisplay.getAttribute("data-duration").split(":")[0];
+    let timerDuration = timerDisplay.getAttribute("data-duration").split(":")[0];
 
     let duration = timerDuration * 60 * 1000;
     let endTimestamp = Date.now() + duration;
 
     myInterval = setInterval(function () {
-        const timeRemaining = new Date(endTimestamp - Date.now());
+        const timeRemaining = endTimestamp - Date.now();
 
         if(timeRemaining <= 0) {
             clearInterval(myInterval);
             timerDisplay.textContent = "00:00";
 
-            const alarm = new Audio("/Users/joaosilvino/Downloads/jeremayjimenez-thailand-eas-alarm-2006-266492.mp3");
             alarm.play();
+            setTimeout(() => {
+                alarm.pause();
+                alarm.currentTime = 0;
+            }, 10000);
+
         } else {
             const minutes = Math.floor(timeRemaining / 60000);
             const seconds = ((timeRemaining % 60000) / 1000).toFixed(0);
